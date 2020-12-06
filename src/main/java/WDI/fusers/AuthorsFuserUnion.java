@@ -12,7 +12,6 @@ package WDI.fusers;
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
 import java.util.List;
 
 import WDI.fusionmodel.Author;
@@ -37,7 +36,14 @@ public class AuthorsFuserUnion extends AttributeValueFuser<List<Author>, Book, A
 	public AuthorsFuserUnion() {
 		super(new Union<Author, Book, Attribute>());
 	}
-	
+
+	@Override
+	public void fuse(RecordGroup<Book, Attribute> group, Book fusedRecord, Processable<Correspondence<Attribute, Matchable>> schemaCorrespondences, Attribute schemaElement) {
+		FusedValue<List<Author>, Book, Attribute> fused = getFusedValue(group, schemaCorrespondences, schemaElement);
+		fusedRecord.setAuthors(fused.getValue());
+		fusedRecord.setAttributeProvenance(Book.AUTHORS, fused.getOriginalIds());
+	}
+
 	@Override
 	public boolean hasValue(Book record, Correspondence<Attribute, Matchable> correspondence) {
 		return record.hasValue(Book.AUTHORS);
@@ -48,11 +54,6 @@ public class AuthorsFuserUnion extends AttributeValueFuser<List<Author>, Book, A
 		return record.getAuthors();
 	}
 
-	@Override
-	public void fuse(RecordGroup<Book, Attribute> group, Book fusedRecord, Processable<Correspondence<Attribute, Matchable>> schemaCorrespondences, Attribute schemaElement) {
-		FusedValue<List<Author>, Book, Attribute> fused = getFusedValue(group, schemaCorrespondences, schemaElement);
-		fusedRecord.setAuthors(fused.getValue());
-		fusedRecord.setAttributeProvenance(Book.AUTHORS, fused.getOriginalIds());
-	}
+	
 
 }

@@ -42,8 +42,7 @@ public class BookAuthorComparatorMaximumOfContainment implements Comparator<Book
 		List<String> l2 = new LinkedList<String>();
 
 		String print1 = list1.stream().map(Author::getName).collect(Collectors.joining(", "));
-		String print2 = list1.stream().map(Author::getName).collect(Collectors.joining(", "));
-
+		String print2 = list2.stream().map(Author::getName).collect(Collectors.joining(", "));
 
 		for(int i=0; i<list1.size(); i++){
 			if(preprocesString(list1.get(i).getName()) != null)

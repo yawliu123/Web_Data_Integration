@@ -12,7 +12,6 @@ package WDI.fusers;
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
 import java.time.LocalDateTime;
 
 import WDI.fusionmodel.Book;
@@ -40,14 +39,15 @@ public class DateFuserVoting extends AttributeValueFuser<LocalDateTime, Book, At
 	public boolean hasValue(Book record, Correspondence<Attribute, Matchable> correspondence) {
 		return record.hasValue(Book.PUBLISHED_DATE);
 	}
-	
+
 	@Override
 	public LocalDateTime getValue(Book record, Correspondence<Attribute, Matchable> correspondence) {
 		return record.getPublished_date();
 	}
 
 	@Override
-	public void fuse(RecordGroup<Book, Attribute> group, Book fusedRecord, Processable<Correspondence<Attribute, Matchable>> schemaCorrespondences, Attribute schemaElement) {
+	public void fuse(RecordGroup<Book, Attribute> group, Book fusedRecord,
+			Processable<Correspondence<Attribute, Matchable>> schemaCorrespondences, Attribute schemaElement) {
 		FusedValue<LocalDateTime, Book, Attribute> fused = getFusedValue(group, schemaCorrespondences, schemaElement);
 		fusedRecord.setPublished_date(fused.getValue());
 		fusedRecord.setAttributeProvenance(Book.PUBLISHED_DATE, fused.getOriginalIds());

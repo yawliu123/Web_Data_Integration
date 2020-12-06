@@ -36,7 +36,7 @@ public class BookXMLFormatter extends XMLFormatter<Book> {
 		book.appendChild(createTextElementWithProvenance("rating_count", Integer.toString(record
 				.getRating_count()), record.getMergedAttributeProvenance(Book.RATING_COUNT), doc));
 		book.appendChild(createAuthorsElement(record, doc));
-		book.appendChild(createGenresElement(record, doc));
+		if(record.getGenres().size() != 0) book.appendChild(createGenresElement(record, doc));
 
 		return book;
 	}
@@ -62,6 +62,8 @@ public class BookXMLFormatter extends XMLFormatter<Book> {
 	}
 	protected Element createGenresElement(Book record, Document doc) {
 		Element genreRoot = genreFormatter.createRootElement(doc);
+		genreRoot.setAttribute("provenance",
+				record.getMergedAttributeProvenance(Book.GENRES));
 
 		for (Genre g : record.getGenres()) {
 			genreRoot.appendChild(genreFormatter

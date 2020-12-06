@@ -19,7 +19,7 @@ import de.uni_mannheim.informatik.dws.winter.similarity.string.LevenshteinSimila
 public class BookPagesComparatorAbsoluteDifferenceSimilarity implements Comparator<Book, Attribute> {
 
 	private static final long serialVersionUID = 1L;
-	private AbsoluteDifferenceSimilarity sim = new AbsoluteDifferenceSimilarity(50);
+	private AbsoluteDifferenceSimilarity sim = new AbsoluteDifferenceSimilarity(100);
 
 	private ComparatorLogger comparisonLog;
 

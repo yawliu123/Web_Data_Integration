@@ -8,6 +8,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.NodeList;
+
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Node;
 import de.uni_mannheim.informatik.dws.winter.model.DataSet;
@@ -38,7 +46,6 @@ FusibleFactory<Book, Attribute> {
 
 	@Override
 	public Book createModelFromElement(Node node, String provenanceInfo) {
-		//String id = getValueFromChildElement(node, "id");
 		String id = node.getAttributes().getNamedItem("id").getNodeValue();
 
 		// create the object with id and provenance information
@@ -91,7 +98,7 @@ FusibleFactory<Book, Attribute> {
 				LocalDateTime dt = LocalDateTime.parse(date, formatter);
 				book.setPublished_date(dt);
 			}else {
-				System.out.println("&&&&&&&&&&&&&&&& the date is null");
+				//System.out.println("&&&&&&&&&&&&&&&& the date is null");
 				String str = "2020-11-20";
 				DateTimeFormatter formatter = new DateTimeFormatterBuilder()
 						.appendPattern("yyyy-MM-dd")
@@ -109,13 +116,23 @@ FusibleFactory<Book, Attribute> {
 		// load the list of actors
 		List<Author> authors = getObjectListFromChildElement(node, "authors",
 				"author", new AuthorXMLReader(), provenanceInfo);
+		
 		book.setAuthors(authors);
 
 		// load the list of genres
-		List<Genre> genres = getObjectListFromChildElement(node, "genres",
-				"genres", new GenreXMLReader(), provenanceInfo);
-		book.setGenres(genres);
+		String genres = getValueFromChildElement(node, "genres");
 
+		if(getValueFromChildElement(node, "genres") != null && !(getValueFromChildElement(node, "genres") == "")){
+			String tokens[] = genres.split("\\r?\\n");
+			List<Genre> g = new LinkedList<Genre>();
+
+			for(String token : tokens){
+				Genre gen = new Genre(id, provenanceInfo);
+				gen.setGenre(token.trim());
+				g.add(gen);
+			}
+			book.setGenres(g);
+		}
 		return book;
 	}
 

@@ -35,7 +35,7 @@ public class TitleEvaluationRule extends EvaluationRule<Book, Attribute> {
 	public boolean isEqual(Book record1, Book record2, Attribute schemaElement) {
 		// the title is correct if all tokens are there, but the order does not
 		// matter
-		return sim.calculate(record1.getTitle(), record2.getTitle()) == 1.0;
+		return sim.calculate(record1.getTitle(), record2.getTitle()) >= 0.7;
 	}
 
 	/* (non-Javadoc)
