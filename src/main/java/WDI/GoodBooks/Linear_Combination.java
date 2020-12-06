@@ -44,7 +44,7 @@ public class Linear_Combination {
 		 */
 		System.out.println("*\n*\tLoading gold standard for BX and books\n*");
 		MatchingGoldStandard gsTest_BX_books = new MatchingGoldStandard();
-		gsTest_BX_books.loadFromCSVFile(new File("data/goldstandard/goodread_crossing_GS.csv"));
+		gsTest_BX_books.loadFromCSVFile(new File("data/goldstandard/goodread_crossing_GS_test.csv"));
 		//create a matching rule
 		LinearCombinationMatchingRule<Book, Attribute> matchingRule_BX_books = new LinearCombinationMatchingRule<>(     
 		1.0); 
@@ -86,7 +86,7 @@ public class Linear_Combination {
 		 */
 		System.out.println("*\n*\tLoading gold standard for good and books\n*");
 		MatchingGoldStandard gsTest_good_books = new MatchingGoldStandard();
-		gsTest_good_books.loadFromCSVFile(new File("data/goldstandard/goodread_bestbook_GS.csv"));
+		gsTest_good_books.loadFromCSVFile(new File("data/goldstandard/goodread_bestbook_GS_test.csv"));
 		//create a matching rule
 		LinearCombinationMatchingRule<Book, Attribute> matchingRule_good_books = new LinearCombinationMatchingRule<>(     
 		0.8); 
@@ -128,7 +128,7 @@ public class Linear_Combination {
 		 */
 		System.out.println("*\n*\tLoading gold standard for good and books\n*");
 		MatchingGoldStandard gsTest_BX_good = new MatchingGoldStandard();
-		gsTest_BX_good.loadFromCSVFile(new File("data/goldstandard/crossing_bestbook_GS.csv"));
+		gsTest_BX_good.loadFromCSVFile(new File("data/goldstandard/crossing_bestbook_GS_test.csv"));
 		//create a matching rule
 		LinearCombinationMatchingRule<Book, Attribute> matchingRule_BX_good = new LinearCombinationMatchingRule<>(     
 		0.7); 

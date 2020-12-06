@@ -28,9 +28,15 @@ public class BookDateComparator2Years implements Comparator<Book, Attribute> {
 		if (this.comparisonLog != null) {
 			this.comparisonLog.setComparatorName(getClass().getName());
 
-			this.comparisonLog.setRecord1Value(record1.getPublished_date().toString());
-			this.comparisonLog.setRecord2Value(record2.getPublished_date().toString());
-
+			if (record1.getPublished_date() == null)
+				this.comparisonLog.setRecord1Value("");
+			else
+				this.comparisonLog.setRecord1Value(record1.getPublished_date().toString());
+			
+			if(record2.getPublished_date() == null)
+				this.comparisonLog.setRecord2Value("");
+			else
+				this.comparisonLog.setRecord2Value(record2.getPublished_date().toString());
 			this.comparisonLog.setSimilarity(Double.toString(similarity));
 		}
 		return similarity;

@@ -34,8 +34,8 @@ public class BookPagesComparatorAbsoluteDifferenceSimilarity implements Comparat
 		if (this.comparisonLog != null) {
 			this.comparisonLog.setComparatorName(getClass().getName());
 
-			this.comparisonLog.setRecord1Value(record1.getPublished_date().toString());
-			this.comparisonLog.setRecord2Value(record2.getPublished_date().toString());
+			this.comparisonLog.setRecord1Value(Double.toString(n1));
+			this.comparisonLog.setRecord2Value(Double.toString(n2));
 
 			this.comparisonLog.setSimilarity(Double.toString(similarity));
 		}

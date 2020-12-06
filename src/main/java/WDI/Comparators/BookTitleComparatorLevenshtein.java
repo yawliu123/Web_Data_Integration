@@ -6,7 +6,6 @@ import de.uni_mannheim.informatik.dws.winter.matching.rules.ComparatorLogger;
 import de.uni_mannheim.informatik.dws.winter.model.Correspondence;
 import de.uni_mannheim.informatik.dws.winter.model.Matchable;
 import de.uni_mannheim.informatik.dws.winter.model.defaultmodel.Attribute;
-//import de.uni_mannheim.informatik.dws.winter.similarity.string.LevenshteinEditDistance;
 import de.uni_mannheim.informatik.dws.winter.similarity.string.LevenshteinSimilarity;
 
 /**
@@ -20,7 +19,7 @@ public class BookTitleComparatorLevenshtein implements Comparator<Book, Attribut
 
 	private static final long serialVersionUID = 1L;
 	private LevenshteinSimilarity sim = new LevenshteinSimilarity();
-	// private LevenshteinEditDistance sim = new LevenshteinEditDistance();
+	//private LevenshteinEditDistance sim = new LevenshteinEditDistance();
 
 	private ComparatorLogger comparisonLog;
 
@@ -29,12 +28,6 @@ public class BookTitleComparatorLevenshtein implements Comparator<Book, Attribut
 
 		String s1 = record1.getTitle();
 		String s2 = record2.getTitle();
-
-		if (this.comparisonLog != null) {
-			this.comparisonLog.setComparatorName(getClass().getName());
-			this.comparisonLog.setRecord1Value(s1);
-			this.comparisonLog.setRecord2Value(s2);
-		}
 
 		if (s1 != null) {
 			s1 = preprocesString(s1);
@@ -51,31 +44,25 @@ public class BookTitleComparatorLevenshtein implements Comparator<Book, Attribut
 		// calculate similarity
 		double similarity = sim.calculate(s1, s2);
 
-		// postprocessing
-		int postSimilarity = 0;
-		if (similarity <= 0.3) {
-			postSimilarity = 0;
-		}
-		else postSimilarity = 1;
-
-		postSimilarity *= similarity;
-
-		if (this.comparisonLog != null) {
-			this.comparisonLog.setRecord1PreprocessedValue(s1);
-			this.comparisonLog.setRecord2PreprocessedValue(s2);
-
+		if(this.comparisonLog != null){
+			this.comparisonLog.setComparatorName(getClass().getName());
+		
+			this.comparisonLog.setRecord1Value(s1);
+			this.comparisonLog.setRecord2Value(s2);
+    	
 			this.comparisonLog.setSimilarity(Double.toString(similarity));
-			this.comparisonLog.setPostprocessedSimilarity(Double.toString(postSimilarity));
 		}
 
-		return postSimilarity;
+		return similarity;
 
 	}
 
 	public String preprocesString(String s) {
-		// Normalize Spelling: lowercase and remove punctuation
+		// Normalize Spelling: lowercase, remove punctuation and non-ASCII characters
 		s = s.toLowerCase();
+		s = s.replaceAll("&amp;amp", "");
 		s = s.replaceAll("\\p{Punct}", "");
+		s = s.replaceAll("[^\\p{ASCII}]", "");
 		return s;
 	}
 

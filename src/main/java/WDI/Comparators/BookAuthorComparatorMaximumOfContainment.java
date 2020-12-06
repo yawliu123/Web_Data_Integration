@@ -5,7 +5,14 @@ import de.uni_mannheim.informatik.dws.winter.matching.rules.ComparatorLogger;
 import de.uni_mannheim.informatik.dws.winter.model.Correspondence;
 import de.uni_mannheim.informatik.dws.winter.model.Matchable;
 import de.uni_mannheim.informatik.dws.winter.model.defaultmodel.Attribute;
+import de.uni_mannheim.informatik.dws.winter.similarity.list.MaximumOfContainment;
 import de.uni_mannheim.informatik.dws.winter.similarity.string.TokenizingJaccardSimilarity;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import WDI.model.Author;
 import WDI.model.Book;
 
 /**
@@ -18,41 +25,53 @@ import WDI.model.Book;
  * @author Oliver Lehmberg (oli@dwslab.de)
  * 
  */
-public class BookPublisherComparatorJaccard implements Comparator<Book, Attribute> {
+public class BookAuthorComparatorMaximumOfContainment implements Comparator<Book, Attribute> {
 
 	private static final long serialVersionUID = 1L;
-	private TokenizingJaccardSimilarity sim = new TokenizingJaccardSimilarity();
-
+	private MaximumOfContainment<String> sim = new MaximumOfContainment<String>();
+	
 	private ComparatorLogger comparisonLog;
 
 	@Override
 	public double compare(Book record1, Book record2, Correspondence<Attribute, Matchable> schemaCorrespondences) {
 
-		// preprocessing
-		String s1 = record1.getPublisher();
-		String s2 = record2.getPublisher();
+		List<Author> list1 = record1.getAuthors();
+		List<Author> list2 = record2.getAuthors();
 
-		if (s1 != null) {
-			s1 = preprocesString(s1);
-		} else {
-			s1 = "";
+		List<String> l1 = new LinkedList<String>();
+		List<String> l2 = new LinkedList<String>();
+
+		String print1 = list1.stream().map(Author::getName).collect(Collectors.joining(", "));
+		String print2 = list1.stream().map(Author::getName).collect(Collectors.joining(", "));
+
+
+		for(int i=0; i<list1.size(); i++){
+			if(preprocesString(list1.get(i).getName()) != null)
+				l1.add(preprocesString(list1.get(i).getName()));
+			else l1.add("");
 		}
 
-		if (s2 != null) {
-			s2 = preprocesString(s2);
-		} else {
-			s2 = "";
+		for(int i=0; i<list2.size(); i++){
+			if(preprocesString(list2.get(i).getName()) != null)
+				l2.add(preprocesString(list2.get(i).getName()));
+			else l2.add("");
 		}
 
-		// calculate similarity
-		double similarity = sim.calculate(s1, s2);
+		double similarity = sim.calculate(l1,l2);
 
 		if (this.comparisonLog != null) {
 			this.comparisonLog.setComparatorName(getClass().getName());
 
-			this.comparisonLog.setRecord1Value(s1);
-			this.comparisonLog.setRecord2Value(s2);
-
+			if (record1.getPublished_date() == null)
+				this.comparisonLog.setRecord1Value("");
+			else
+				this.comparisonLog.setRecord1Value(print1);
+			
+			if(record2.getPublished_date() == null)
+				this.comparisonLog.setRecord2Value("");
+			else
+				this.comparisonLog.setRecord2Value(print2);
+			
 			this.comparisonLog.setSimilarity(Double.toString(similarity));
 		}
 
@@ -60,7 +79,7 @@ public class BookPublisherComparatorJaccard implements Comparator<Book, Attribut
 	}
 
 	public String preprocesString(String s) {
-		// Normalize Spelling: lowercase, remove punctuation and non-ASCII characters
+		// Normalize Spelling: lowercase, remove punctuation and remove non-ASCII characters
 		s = s.toLowerCase();
 		s = s.replaceAll("&amp;amp", "");
 		s = s.replaceAll("\\p{Punct}", "");
