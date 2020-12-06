@@ -11,8 +11,8 @@
  */
 package WDI.Evaluation;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 import WDI.fusionmodel.Author;
 import WDI.fusionmodel.Book;
@@ -20,6 +20,8 @@ import de.uni_mannheim.informatik.dws.winter.datafusion.EvaluationRule;
 import de.uni_mannheim.informatik.dws.winter.model.Correspondence;
 import de.uni_mannheim.informatik.dws.winter.model.Matchable;
 import de.uni_mannheim.informatik.dws.winter.model.defaultmodel.Attribute;
+import de.uni_mannheim.informatik.dws.winter.similarity.SimilarityMeasure;
+import de.uni_mannheim.informatik.dws.winter.similarity.list.OverlapSimilarity;
 
 /**
  * {@link EvaluationRule} for the actors of {@link Movie}s. The rule simply
@@ -33,22 +35,19 @@ public class AuthorsEvaluationRule extends EvaluationRule<Book, Attribute> {
 
 	@Override
 	public boolean isEqual(Book record1, Book record2, Attribute schemaElement) {
-		Set<String> authors1 = new HashSet<>();
+		List<String> authors1 = new LinkedList<String>();
+		SimilarityMeasure<List<String>> sim = new OverlapSimilarity();
 
 		for (Author a : record1.getAuthors()) {
-			// note: evaluating using the actor's name only suffices for simple
-			// lists
-			// in your project, you should have actor ids which you use here
-			// (and in the identity resolution)
 			authors1.add(a.getName());
 		}
 
-		Set<String> authors2 = new HashSet<>();
+		List<String> authors2 = new LinkedList<String>();
 		for (Author a : record2.getAuthors()) {
 			authors2.add(a.getName());
 		}
 
-		return authors1.containsAll(authors2) && authors2.containsAll(authors1);
+		return sim.calculate(authors1, authors2) >= 0.9;
 	}
 
 	/* (non-Javadoc)

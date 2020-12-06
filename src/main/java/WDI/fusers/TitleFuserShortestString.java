@@ -1,5 +1,7 @@
 package WDI.fusers;
 
+import WDI.fusionmodel.Book;
+
 /*
  * Copyright (c) 2017 Data and Web Science Group, University of Mannheim, Germany (http://dws.informatik.uni-mannheim.de/)
  *
@@ -12,8 +14,6 @@ package WDI.fusers;
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
-import WDI.fusionmodel.Book;
 
 import de.uni_mannheim.informatik.dws.winter.datafusion.AttributeValueFuser;
 import de.uni_mannheim.informatik.dws.winter.datafusion.conflictresolution.string.ShortestString;

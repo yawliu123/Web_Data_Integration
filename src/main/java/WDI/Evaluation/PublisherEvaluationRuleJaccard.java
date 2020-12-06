@@ -33,7 +33,7 @@ public class PublisherEvaluationRuleJaccard extends EvaluationRule<Book, Attribu
 	public boolean isEqual(Book record1, Book record2, Attribute schemaElement) {
 		// the title is correct if all tokens are there, but the order does not
 		// matter
-		return sim.calculate(record1.getPublisher(), record2.getPublisher()) == 1.0;
+		return sim.calculate(record1.getPublisher(), record2.getPublisher()) >= 0.7;
 	}
 	/* (non-Javadoc)
 	 * @see de.uni_mannheim.informatik.wdi.datafusion.EvaluationRule#isEqual(java.lang.Object, java.lang.Object, de.uni_mannheim.informatik.wdi.model.Correspondence)

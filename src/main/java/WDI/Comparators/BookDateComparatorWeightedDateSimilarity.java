@@ -17,7 +17,7 @@ import de.uni_mannheim.informatik.dws.winter.similarity.date.WeightedDateSimilar
 public class BookDateComparatorWeightedDateSimilarity implements Comparator<Book, Attribute> {
 
 	private static final long serialVersionUID = 1L;
-	private WeightedDateSimilarity sim = new WeightedDateSimilarity(0.2,0.2,0.6);
+	private WeightedDateSimilarity sim = new WeightedDateSimilarity(0.1,0.1,0.8);
 	
 	private ComparatorLogger comparisonLog;
 

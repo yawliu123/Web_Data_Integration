@@ -24,7 +24,7 @@ public class BookXMLReader extends XMLMatchableReader<Book, Attribute>  {
 	
 	@Override
 	public Book createModelFromElement(Node node, String provenanceInfo) {
-		String id = node.getAttributes().getNamedItem("id").getNodeValue();
+		String id = node.getAttributes().getNamedItem("id").getNodeValue();;
 //		if(id == null) {
 //			System.out.println("id is null!!!!!!!!!!!!!!!!!!");
 //		}
@@ -78,17 +78,6 @@ public class BookXMLReader extends XMLMatchableReader<Book, Attribute>  {
 				        .toFormatter(Locale.ENGLISH);
 				LocalDateTime dt = LocalDateTime.parse(date, formatter);
 				book.setPublished_date(dt);
-			}else {
-				System.out.println("&&&&&&&&&&&&&&&& the date is null");
-				String str = "2020-11-20";
-				DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-				        .appendPattern("yyyy-MM-dd")
-				        .parseDefaulting(ChronoField.CLOCK_HOUR_OF_DAY, 0)
-				        .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-				        .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-				        .toFormatter(Locale.ENGLISH);
-				LocalDateTime dt = LocalDateTime.parse(str, formatter);
-				book.setPublished_date(dt);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,6 +86,7 @@ public class BookXMLReader extends XMLMatchableReader<Book, Attribute>  {
 		// load the list of actors
 		List<Author> authors = getObjectListFromChildElement(node, "authors",
 				"author", new AuthorXMLReader(), provenanceInfo);
+		
 		book.setAuthors(authors);
 		
 		// load the list of genres

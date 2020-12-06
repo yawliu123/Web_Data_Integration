@@ -15,7 +15,7 @@ public class Genre extends AbstractRecord<Attribute> implements Serializable {
 		super(identifier,provenance);
 	}
 
-	public static final Attribute GENRE = new Attribute("genre");
+	public static final Attribute GENRE = new Attribute("Genre");
 	
 
 	@Override
@@ -57,6 +57,11 @@ public class Genre extends AbstractRecord<Attribute> implements Serializable {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[Genre: %s]", getGenre());
 	}
 
 }

@@ -41,7 +41,7 @@ public class BookBlockingKeyByDecadeGenerator extends
 	@Override
 	public void generateBlockingKeys(Book record, Processable<Correspondence<Attribute, Matchable>> correspondences,
 			DataIterator<Pair<String, Book>> resultCollector) {
-		resultCollector.next(new Pair<>(Integer.toString(record.getPublished_date().getYear() / 10), record));
+		resultCollector.next(new Pair<>(Integer.toString(record.getPublished_date().getYear() / 2), record));
 	}
 
 }

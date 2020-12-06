@@ -14,7 +14,7 @@ public class Author extends AbstractRecord<Attribute> implements Serializable{
 		super(identifier,provenance);
 	}
 	
-	public static final Attribute NAME = new Attribute("name");
+	public static final Attribute NAME = new Attribute("Name");
 	
 	@Override
 	public boolean hasValue(Attribute attribute) {
@@ -57,6 +57,11 @@ public class Author extends AbstractRecord<Attribute> implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[Author: %s]", getName());
 	}
 
 }

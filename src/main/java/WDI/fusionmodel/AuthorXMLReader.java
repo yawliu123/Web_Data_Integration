@@ -16,7 +16,6 @@ public class AuthorXMLReader extends XMLMatchableReader<Author, Attribute> {
 
 		// fill the attributes
 		author.setName(getValueFromChildElement(node, "name"));
-
 		return author;
 	}
 

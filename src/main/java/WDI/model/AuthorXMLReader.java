@@ -12,6 +12,8 @@ public class AuthorXMLReader extends XMLMatchableReader<Author, Attribute> {
 	public Author createModelFromElement(Node node, String provenanceInfo) {
 		String id = getValueFromChildElement(node, "id");
 
+		
+
 		// create the object with id and provenance information
 		Author author = new Author(id, provenanceInfo);
 

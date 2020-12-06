@@ -37,7 +37,7 @@ public class Book implements Matchable{
 	@Override
 	public String getProvenance() {
 		// TODO Auto-generated method stub
-		return null;
+		return provenance;
 	}
 
 	public String getTitle() {
@@ -105,8 +105,10 @@ public class Book implements Matchable{
 	}
     @Override
     public String toString() {
-    	// TODO Auto-generated method stub
-    	return String.format("[Book %s: %s / %s / %s / %s]", getIdentifier(),getTitle(),String.valueOf(getRating()),getPublished_date().toString(),getPublisher());
+		// TODO Auto-generated method stub
+		if(getPublished_date() != null)
+			return String.format("[Book %s: %s / %s / %s / %s]", getIdentifier(),getTitle(),String.valueOf(getRating()),getPublished_date().toString(),getPublisher());
+		else return String.format("[Book %s: %s / %s / %s / %s]", getIdentifier(),getTitle(),String.valueOf(getRating()),"",getPublisher());
     }
     
     @Override
