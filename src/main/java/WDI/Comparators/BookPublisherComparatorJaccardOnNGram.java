@@ -5,7 +5,7 @@ import de.uni_mannheim.informatik.dws.winter.matching.rules.ComparatorLogger;
 import de.uni_mannheim.informatik.dws.winter.model.Correspondence;
 import de.uni_mannheim.informatik.dws.winter.model.Matchable;
 import de.uni_mannheim.informatik.dws.winter.model.defaultmodel.Attribute;
-import de.uni_mannheim.informatik.dws.winter.similarity.string.TokenizingJaccardSimilarity;
+import de.uni_mannheim.informatik.dws.winter.similarity.string.JaccardOnNGramsSimilarity;
 import WDI.model.Book;
 
 /**
@@ -18,10 +18,10 @@ import WDI.model.Book;
  * @author Oliver Lehmberg (oli@dwslab.de)
  * 
  */
-public class BookPublisherComparatorJaccard implements Comparator<Book, Attribute> {
+public class BookPublisherComparatorJaccardOnNGram implements Comparator<Book, Attribute> {
 
 	private static final long serialVersionUID = 1L;
-	private TokenizingJaccardSimilarity sim = new TokenizingJaccardSimilarity();
+	private JaccardOnNGramsSimilarity sim = new JaccardOnNGramsSimilarity(1);
 
 	private ComparatorLogger comparisonLog;
 

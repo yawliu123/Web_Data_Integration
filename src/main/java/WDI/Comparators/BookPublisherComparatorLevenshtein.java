@@ -20,7 +20,7 @@ public class BookPublisherComparatorLevenshtein implements Comparator<Book, Attr
 
 	private static final long serialVersionUID = 1L;
 	private LevenshteinSimilarity sim = new LevenshteinSimilarity();
-	// private LevenshteinEditDistance sim = new LevenshteinEditDistance();
+	//private LevenshteinEditDistance sim = new LevenshteinEditDistance();
 
 	private ComparatorLogger comparisonLog;
 
@@ -29,12 +29,6 @@ public class BookPublisherComparatorLevenshtein implements Comparator<Book, Attr
 
 		String s1 = record1.getPublisher();
 		String s2 = record2.getPublisher();
-
-		if (this.comparisonLog != null) {
-			this.comparisonLog.setComparatorName(getClass().getName());
-			this.comparisonLog.setRecord1Value(s1);
-			this.comparisonLog.setRecord2Value(s2);
-		}
 
 		if (s1 != null) {
 			s1 = preprocesString(s1);
@@ -51,30 +45,24 @@ public class BookPublisherComparatorLevenshtein implements Comparator<Book, Attr
 		// calculate similarity
 		double similarity = sim.calculate(s1, s2);
 
-		// postprocessing
-		int postSimilarity = 0;
-		if (similarity <= 0.3) {
-			postSimilarity = 0;
-		}
-		else postSimilarity = 1;
-
-		postSimilarity *= similarity;
-
 		if (this.comparisonLog != null) {
-			this.comparisonLog.setRecord1PreprocessedValue(s1);
-			this.comparisonLog.setRecord2PreprocessedValue(s2);
+			this.comparisonLog.setComparatorName(getClass().getName());
+
+			this.comparisonLog.setRecord1Value(s1);
+			this.comparisonLog.setRecord2Value(s2);
 
 			this.comparisonLog.setSimilarity(Double.toString(similarity));
-			this.comparisonLog.setPostprocessedSimilarity(Double.toString(postSimilarity));
 		}
 
-		return postSimilarity;
+		return similarity;
 	}
 
 	public String preprocesString(String s) {
-		// Normalize Spelling: lowercase and remove punctuation
+		// Normalize Spelling: lowercase, remove punctuation and non-ASCII characters
 		s = s.toLowerCase();
+		s = s.replaceAll("&amp;amp", "");
 		s = s.replaceAll("\\p{Punct}", "");
+		s = s.replaceAll("[^\\p{ASCII}]", "");
 		return s;
 	}
 
